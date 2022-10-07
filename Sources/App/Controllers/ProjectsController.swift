@@ -8,14 +8,14 @@ struct ProjectsController: RouteCollection {
         projectsRoutes.get(use: getAllHandler)
         projectsRoutes.post(use: createHandler)
         projectsRoutes.get(":projectID", use: getHandler)
-        projectsRoutes.get(":projectID", use: updateHandler)
+        projectsRoutes.put(":projectID", use: updateHandler)
         projectsRoutes.delete(":projectID", use: deleteHandler)
         projectsRoutes.get("search", use: searchHandler)
         projectsRoutes.get("first", use: getFirstHandler)
         projectsRoutes.get("sorted", use: sortedHandler)
         
         projectsRoutes.post(":projectID", "skills", ":skillID", use: addSkillsHandler)
-        projectsRoutes.get(":projectID", "categories", use: getSkillsHandler)
+        projectsRoutes.get(":projectID", "skills", use: getSkillsHandler)
         projectsRoutes.delete(":projectID", "skills", ":skillID", use: removeSkillsHandler)
     }
 
@@ -38,6 +38,7 @@ struct ProjectsController: RouteCollection {
         return Project.find(req.parameters.get("projectID"), on: req.db)
             .unwrap(or: Abort(.notFound)).flatMap { project in
                 project.name = updatedProject.name
+                project.yearCompleted = updatedProject.yearCompleted
                 return project.save(on: req.db).map { project }
             }
     }

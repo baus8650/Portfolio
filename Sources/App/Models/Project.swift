@@ -1,8 +1,9 @@
 import Vapor
 import Fluent
 
+/// An instance of a "project" or an application to showcase
 final class Project: Model, Content {
-    static let schema = "project"
+    static let schema = "projects"
     
     @ID
     var id: UUID?

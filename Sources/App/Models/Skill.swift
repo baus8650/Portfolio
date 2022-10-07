@@ -1,6 +1,7 @@
 import Vapor
 import Fluent
 
+/// A notable skill utilized when building a `Project`
 final class Skill: Model, Content {
     static let schema = "skills"
     

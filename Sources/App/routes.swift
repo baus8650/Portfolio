@@ -6,9 +6,10 @@ func routes(_ app: Application) throws {
         try await req.view.render("index", ["title": "Hello Vapor!"])
     }
 
-    app.get("hello") { req async -> String in
-        "Hello, world!"
-    }
-
-    try app.register(collection: TodoController())
+    let projectsController = ProjectsController()
+    try app.register(collection: projectsController)
+    
+    let skillsController = SkillsController()
+    try app.register(collection: skillsController)
+    
 }

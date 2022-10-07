@@ -5,7 +5,7 @@ struct CreateProject: Migration {
         database.schema("projects")
             .id()
             .field("name", .string, .required)
-            .field("yearCompleted", .string, .required)
+            .field("yearCompleted", .int, .required)
             .create()
     }
     

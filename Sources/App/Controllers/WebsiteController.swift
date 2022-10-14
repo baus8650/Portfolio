@@ -50,7 +50,7 @@ struct WebsiteController: RouteCollection {
     
     func indexHandler(_ req: Request) -> EventLoopFuture<View> {
         User.query(on: req.db).all().flatMap { users in
-            Project.query(on: req.db).with(\.$applicationType).all().flatMap { projects in
+            Project.query(on: req.db).sort(\.$yearCompleted, .descending).with(\.$applicationType).all().flatMap { projects in
                 let newProjects = projects.map { project in
                     ProjectWithType(id: project.id, name: project.name, yearCompleted: project.yearCompleted, shortDescription: project.shortDescription, appIcon: project.appIcon, type: project.applicationType)
                 }

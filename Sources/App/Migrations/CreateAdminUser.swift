@@ -5,7 +5,7 @@ struct CreateAdminUser: Migration {
     func prepare(on database: Database) -> EventLoopFuture<Void> {
         let passwordHash: String
         do {
-            passwordHash = try Bcrypt.hash("qurcyg-gohsi4-Ravnex")
+            passwordHash = try Bcrypt.hash(Environment.get("ADMIN_PASSWORD")!)
         } catch {
             return database.eventLoop.future(error: error)
         }

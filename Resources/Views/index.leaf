@@ -19,7 +19,7 @@
     #endif
   </div>
   <div class="col">
-    <img style="border-radius: 20px;" src="../../Images/Headshots/#(user.headshot)" class="mx-auto d-block img-fluid" alt="Tim Bausch's Headshot"/>
+    <img style="border-radius: 20px;" src="Public/Images/Headshots/#(user.headshot)" class="mx-auto d-block img-fluid" alt="Tim Bausch's Headshot"/>
   </div>
 </div>
 

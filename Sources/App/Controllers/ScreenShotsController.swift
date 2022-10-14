@@ -3,11 +3,13 @@ import Vapor
 struct ScreenShotsController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let screenShotsRoute = routes.grouped("api", "screenshots")
-        screenShotsRoute.post(use: createHandler)
-        screenShotsRoute.get(use: getAllHandler)
-        screenShotsRoute.get(":screenshotID", use: getHandler)
-        screenShotsRoute.put(":screenshotID", use: updateHandler)
-        screenShotsRoute.delete("delete", ":screenshotID", use: deleteHandler)
+        let authSessionsRoutes = routes.grouped(User.sessionAuthenticator())
+        let protectedRoutes = authSessionsRoutes.grouped(User.redirectMiddleware(path: "/login"))
+        protectedRoutes.post(use: createHandler)
+        protectedRoutes.get(use: getAllHandler)
+        protectedRoutes.get(":screenshotID", use: getHandler)
+        protectedRoutes.put(":screenshotID", use: updateHandler)
+        protectedRoutes.delete("delete", ":screenshotID", use: deleteHandler)
     }
     
     func createHandler(_ req: Request)

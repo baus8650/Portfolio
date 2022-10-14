@@ -33,6 +33,8 @@ struct WebsiteController: RouteCollection {
         protectedRoutes.post("screenshots", "create", use: createGeneralScreenShotPostHandler)
         protectedRoutes.get("screenshots", ":projectID", "create", use: adminCreateScreenShotHandler)
         protectedRoutes.post("screenshots", ":projectID", "create", use: createScreenShotPostHandler)
+//        protectedRoutes.get("screenshots", ":screnshotID", "edit", use: editScreenShotHandler)
+//        protectedRoutes.post("screenshots", ":screnshotID", "edit", use: editScreenShotPostHandler)
         
         
         protectedRoutes.get("reviews", "create", use: admincCreateGeneralReviewHandler)
@@ -345,13 +347,6 @@ struct WebsiteController: RouteCollection {
                 }
                 
             }
-//        return User.find(req.parameters.get("userID"), on: req.db)
-//            .unwrap(or: Abort(.notFound)).flatMap { user in
-//                user.name = updateData.name
-//                user.biography = updateData.biography
-//                let redirect = req.redirect(to: "/admin")
-//                return user.save(on: req.db).transform(to: redirect)
-//            }
     }
     
     // MARK: - LOG IN

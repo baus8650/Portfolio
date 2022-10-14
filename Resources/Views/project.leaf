@@ -28,14 +28,16 @@
 #if(count(screenshots) > 0):
 <hr>
 <h2 class="text-center" style="margin-bottom: 1.5rem;">Screen Shots</h2>
-<div class="row row-cols-1 row-cols-md-5 g-5">
+<div class="row row-cols-1 row-cols-md-4 g-4">
   #for(screenshot in screenshots):
   <div class="col">
-    <div class="card-group">
-      <a href="/Images/ScreenShots/#(screenshot.image)"><img src="/Images/ScreenShots/#(screenshot.image)" class="card-img-top" alt="..."></a>
-      <div class="card-body">
-        <p class="card-text" style="margin-top: 1em;">#(screenshot.description)</p>
-        <div class="text-center">
+    <div class="card border-secondary mb-3" style="max-width: 18rem;">
+      <div class="card-group">
+        <a href="/Images/ScreenShots/#(screenshot.image)"><img src="/Images/ScreenShots/#(screenshot.image)" class="card-img-top" alt="..."></a>
+        <div class="card-body">
+          <p class="card-text" style="margin-top: 1em;">#(screenshot.description)</p>
+          <div class="text-center">
+          </div>
         </div>
       </div>
     </div>

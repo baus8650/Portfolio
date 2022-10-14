@@ -1,0 +1,161 @@
+#extend("base"):
+#export("content"):
+<h1>Admin Portal</h1>
+<section>
+    <h1>Users</h1>
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th>Name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(user in users):
+        <tr>
+            <td>
+                #(user.name)
+            </td>
+            <td>
+                <a class="btn btn-primary" href="/admin/edit/#(user.id)"
+                   role="button">Edit</a>
+            </td>
+        </tr>
+        #endfor
+        </tbody>
+    </table>
+</section>
+<section>
+    <h3>Projects</h3>
+    #if(count(projects) > 0):
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Year Completed</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(project in projects):
+        <tr>
+            <td>
+                #(project.id)
+            </td>
+            <td>
+                <a href="admin/projects/#(project.id)">#(project.name)</a>
+            </td>
+            <td>
+                #(project.yearCompleted)
+            </td>
+            <td>
+                <a class="btn btn-primary" href="admin/#(project.id)/edit"
+                   role="button">Edit</a>
+            </td>
+            <td>
+                <button class="btn btn-danger" onclick="deleteProject('api/projects/delete/#(project.id)')">Delete</button>
+            </td>
+        </tr>
+        #endfor
+        </tbody>
+    </table>
+    #else:
+    <div class="alert alert-primary" role="alert">
+        There aren't any projects yet!
+    </div>
+    #endif
+    <a class="btn btn-primary" href="/projects/create">Add New Project</a>
+</section>
+
+<section>
+<h3>Screen Shots</h3>
+    #if(count(screenshots) > 0):
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th>Image</th>
+            <th>Description</th>
+            <th>Parent Project</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(screenshot in screenshots):
+        <tr>
+            <td>
+                <image src="Images/ScreenShots/#(screenshot.image)" class="img-thumbnail small"/>
+            </td>
+            <td>
+                #(screenshot.description)
+            </td>
+            <td>
+                #(screenshot.project.id)
+            </td>
+            <td>
+                <a class="btn btn-primary" href="admin/#(screenshot.id)/edit"
+                   role="button">Edit</a>
+            </td>
+            <td>
+                <button class="btn btn-danger" onclick="deleteProject('api/screenshots/delete/#(screenshot.id)')">Delete</button>
+            </td>
+        </tr>
+        #endfor
+        </tbody>
+    </table>
+    #else:
+    <div class="alert alert-primary" role="alert">
+        There aren't any screenshots yet!
+    </div>
+    #endif
+    <a class="btn btn-primary" href="/screenshots/create">Add New Screenshot</a>
+</section>
+
+<section>
+<h3>Reviews</h3>
+    #if(count(reviews) > 0):
+    <table class="table table-bordered table-hover">
+        <thead class="thead-light">
+        <tr>
+            <th>Rating</th>
+            <th>Review</th>
+            <th>Parent Project</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        #for(review in reviews):
+        <tr>
+            <td>
+                #(review.ratingValue)
+            </td>
+            <td>
+                #(review.ratingComment)
+            </td>
+            <td>
+                #(review.project.id)
+            </td>
+            <td>
+                <a class="btn btn-primary" href="admin/#(review.id)/edit"
+                   role="button">Edit</a>
+            </td>
+            <td>
+                <button class="btn btn-danger" onclick="deleteProject('api/reviews/delete/#(review.id)')">Delete</button>
+            </td>
+        </tr>
+        #endfor
+        </tbody>
+    </table>
+    #else:
+    <div class="alert alert-primary" role="alert">
+        There aren't any reviews yet!
+    </div>
+    #endif
+    <a class="btn btn-primary" href="/reviews/create">Add New Review</a>
+</section>
+<script src="/Scripts/fetch.js"></script>
+#endexport
+#endextend

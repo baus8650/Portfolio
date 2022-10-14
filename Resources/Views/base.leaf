@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    #if(title == "Create A Project" || title == "Edit Project"):
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" integrity="sha384-KZO2FRYNmIHerhfYMjCIUaJeGBRXP7CN24SiNSG+wdDzgwvxWbl16wMVtWiJTcMt" crossorigin="anonymous">
+    #endif
+    <title>#(title)</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Timothy Bausch</a>
+        <button class="navbar-toggler" type="button"
+                data-toggle="collapse" data-target="\#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse"
+             id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a href="/admin" class="nav-link">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-3">
+    #import("content")
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script>
+<!-- 2 -->
+#if(title == "Create A Project" || title == "Edit Project"):
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js" integrity="sha384-JnbsSLBmv2/R0fUmF2XYIcAEMPHEAO51Gitn9IjL4l89uFTIgtLF1+jqIqqd9FSk" crossorigin="anonymous"></script>
+<!-- 3 -->
+<script src="/Scripts/createProject.js"></script>
+#endif
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script></body>
+</body>
+</html>

@@ -15,8 +15,13 @@ final class ProjectAndSkillTests: XCTestCase {
     }
     
     func testGettingProjectSkillsFromTheAPI() throws {
+        /// project needs a type to attach to first
+        let projectTypeBuild = ApplicationTypeBuilder().build()
+        let applicationType = ApplicationType(id: projectTypeBuild.id, name: projectTypeBuild.name)
+        try applicationType.save(on: app.db).wait()
+        
         let buildProject = ProjectBuilder().build()
-        let project = Project(name: buildProject.name, yearCompleted: buildProject.yearCompleted)
+        let project = Project(name: buildProject.name, yearCompleted: buildProject.yearCompleted, shortDescription: buildProject.shortDescription, longDescription: buildProject.longDescription, appLink: buildProject.appLink, repoLink: buildProject.repoLink, appIcon: buildProject.appIcon, applicationType: projectTypeBuild.id)
         try project.save(on: app.db).wait()
         
         let buildSkill = SkillBuilder().build()
@@ -38,8 +43,13 @@ final class ProjectAndSkillTests: XCTestCase {
     }
     
     func testGettingSkillsProjectFromTheAPI() throws {
+        /// project needs a type to attach to first
+        let projectTypeBuild = ApplicationTypeBuilder().build()
+        let applicationType = ApplicationType(id: projectTypeBuild.id, name: projectTypeBuild.name)
+        try applicationType.save(on: app.db).wait()
+        
         let buildProject = ProjectBuilder().build()
-        let project = Project(name: buildProject.name, yearCompleted: buildProject.yearCompleted)
+        let project = Project(name: buildProject.name, yearCompleted: buildProject.yearCompleted, shortDescription: buildProject.shortDescription, longDescription: buildProject.longDescription, appLink: buildProject.appLink, repoLink: buildProject.repoLink, appIcon: buildProject.appIcon, applicationType: projectTypeBuild.id)
         try project.save(on: app.db).wait()
         
         let buildSkill = SkillBuilder().build()

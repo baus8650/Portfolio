@@ -1,0 +1,92 @@
+#extend("base"):
+#export("content"):
+<h1>#(title)</h1>
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="form-group">
+        <label for="applicationTypeID">Application Type</label>
+        <select name="applicationTypeID" class="form-control" id="applicationTypeID">
+            #for(type in types):
+            <option value="#(type.id)"
+                    #if(editing):
+                    #if(project.applicationType.id == type.id):
+                    selected
+                    #endif
+                    #endif>
+                #(type.name)
+            </option>
+            #endfor
+        </select>
+    </div>
+
+    <p>Type not listed? <a href="/types/create">Create one here</a></p>
+
+    <div class="form-group">
+        <label for="name">Project Name</label>
+        <input type="text" name="name" class="form-control"
+               id="name" #if(editing): value="#(project.name)" #endif/>
+    </div>
+
+    <div class="form-group">
+        <label for="yearCompleted">Year Completed</label>
+        <input type="number" name="yearCompleted" class="form-control"
+               id="yearCompleted" #if(editing): value="#(project.yearCompleted)" #endif/>
+    </div>
+
+    <div class="form-group">
+        <label for="shortDescription">Short Description</label>
+        <textarea rows="3" name="shortDescription" class="form-control"
+                  id="shortDescription">#if(editing):#(project.shortDescription)#endif
+        </textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="longDescription">Long Description</label>
+        <textarea rows="5" name="longDescription" class="form-control"
+                  id="longDescription">#if(editing):#unsafeHTML(project.longDescription)#endif
+        </textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="appLink">Application Link</label>
+        <input type="text" name="appLink" class="form-control"
+               id="appLink" #if(editing): value="#(project.appLink)" #endif/>
+    </div>
+
+    <div class="form-group">
+        <label for="repoLink">Repo Link</label>
+        <input type="text" name="repoLink" class="form-control"
+               id="repoLink" #if(editing): value="#(project.repoLink)" #endif/>
+    </div>
+
+    <div class="form-group">
+        <label for="appIcon">
+            Select photo for the App Icon
+        </label>
+        <input type="file" name="appIcon"
+               class="form-control-file" id="appIcon"/>
+    </div>
+
+    <div class="form-group">
+        <label for="skills">Skills</label>
+        <select name="skills[]" class="form-control"
+                id="skills" placeholder="Skills" multiple="multiple">
+            #if(editing):
+            <!-- 1 -->
+            #for(skill in skills):
+            <!-- 2 -->
+            <option value="#(skill.name)" selected="selected">
+                #(skill.name)
+            </option>
+            #endfor
+            #endif
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        #if(editing): Update #else: Submit #endif
+    </button>
+</form>
+#endexport
+#endextend

@@ -6,7 +6,8 @@ import Vapor
 // configures your application
 public func configure(_ app: Application) throws {
     // uncomment to serve files from /Public folder
-    // app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+     app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
+    app.middleware.use(app.sessions.middleware)
 
     let databaseName: String
     let databasePort: Int
@@ -26,9 +27,17 @@ public func configure(_ app: Application) throws {
         database: Environment.get("DATABASE_NAME") ?? databaseName
     ), as: .psql)
     
+    app.migrations.add(CreateUser())
+    app.migrations.add(CreateApplicationType())
     app.migrations.add(CreateProject())
     app.migrations.add(CreateSkill())
     app.migrations.add(CreateProjectSkillPivot())
+    app.migrations.add(CreateScreenShot())
+    app.migrations.add(CreateReview())
+    app.migrations.add(CreateToken())
+    app.migrations.add(CreateAdminUser())
+    
+    app.routes.defaultMaxBodySize = "30mb"
     
     app.logger.logLevel = .debug
     

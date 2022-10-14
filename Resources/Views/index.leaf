@@ -1,12 +1,60 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+#extend("base"):
+#export("content"):
+#for(user in users):
+<div class="row">
+  <div class="col">
+    <div style="margin-top: 1rem;">
+      #unsafeHTML(user.biography)
+    </div>
+    #if(user.isEmployed == false):
+    <div class="row">
+      <div class="col-md-8 mx-auto">
+        <div class="text-center d-flex align-items-center justify-content-center" style="height: 30px; width: 240px; background-color: rgb(28,131,82); border-radius: 15px; color: white;">
+          <a style="text-decoration: none; color: white;" href="mailto: timothy.c.bausch@gmail.com">
+            <b>Tim is looking for work!</b>
+          </a>
+          <!--    <h5><span class="badge rounded-pill text-bg-success">Tim is looking for work!</span></h5>-->
+        </div>
+      </div>
+    </div>
+    #endif
+  </div>
+  <div class="col">
+    <img style="border-radius: 20px;" src="/Images/Headshots/#(user.headshot)" class="mx-auto d-block img-fluid" alt="Tim Bausch's Headshot"/>
+  </div>
+</div>
 
-  <title>#(title)</title>
-</head>
-
-<body>
-  <h1>#(title)</h1>
-</body>
-</html>
+#endfor
+#if(projects):
+<hr>
+<div style="margin-top: 1rem;">
+  <div class="text-center">
+    <h1>Projects</h1>
+  </div>
+  <div style="margin-bottom: 5rem;">
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+      #for(project in projects):
+      <div class="card" style="margin-right: 1rem;">
+        <div class="card-header text-center" style="background-color: transparent">
+          <b>#(project.type.name) - #(project.yearCompleted)</b>
+          </div>
+        <div class="text-center" style="margin-top: 1.2rem;">
+          <img style="width: 75%; height: auto; border-radius: 20px;" src="Images/AppIcons/#(project.appIcon)" class="card-img-top" alt="...">
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-left">#(project.name)</h5>
+          <p class="card-text">#(project.shortDescription)</p>
+          <div class="text-center">
+            <a href="projects/#(project.id)" class="btn btn-secondary">More Details</a>
+          </div>
+        </div>
+      </div>
+      #endfor
+    </div>
+  </div>
+  #else:
+  <h2>There aren't any projects yet!</h2>
+</div>
+#endif
+#endexport
+#endextend

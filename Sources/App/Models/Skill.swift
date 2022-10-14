@@ -21,3 +21,23 @@ final class Skill: Model, Content {
         self.name = name
     }
 }
+
+extension Skill {
+    static func addSkill(_ name: String, to project: Project, on req: Request) -> EventLoopFuture<Void> {
+        return Skill.query(on: req.db)
+            .filter(\.$name == name)
+            .first()
+            .flatMap { foundSkill in
+                if let existingSkill = foundSkill {
+                    return project.$skills
+                        .attach(existingSkill, on: req.db)
+                } else {
+                    let skill = Skill(name: name)
+                    return skill.save(on: req.db).flatMap {
+                        project.$skills
+                            .attach(skill, on: req.db)
+                    }
+                }
+            }
+    }
+}

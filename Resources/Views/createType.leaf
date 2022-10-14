@@ -1,0 +1,19 @@
+#extend("base"):
+#export("content"):
+<h1>#(title)</h1>
+
+<form method="post">
+
+    <div class="form-group">
+        <label for="name">Type Name</label>
+        <input type="text" name="name" class="form-control"
+        id="name"/>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Submit
+    </button>
+
+</form>
+#endexport
+#endextend

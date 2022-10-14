@@ -6,17 +6,21 @@ struct ProjectsController: RouteCollection {
     func boot(routes: RoutesBuilder) throws {
         let projectsRoutes = routes.grouped("api", "projects")
         projectsRoutes.get(use: getAllHandler)
-        projectsRoutes.post(use: createHandler)
         projectsRoutes.get(":projectID", use: getHandler)
-        projectsRoutes.put(":projectID", use: updateHandler)
-        projectsRoutes.delete(":projectID", use: deleteHandler)
         projectsRoutes.get("search", use: searchHandler)
         projectsRoutes.get("first", use: getFirstHandler)
         projectsRoutes.get("sorted", use: sortedHandler)
         
-        projectsRoutes.post(":projectID", "skills", ":skillID", use: addSkillsHandler)
         projectsRoutes.get(":projectID", "skills", use: getSkillsHandler)
+        
+        let basicAuthMiddleware = User.authenticator()
+        let guardAuthMiddleware = User.guardMiddleware()
+        projectsRoutes.post(use: createHandler)
+        projectsRoutes.put(":projectID", use: updateHandler)
+        projectsRoutes.delete("delete", ":projectID", use: deleteHandler)
+        projectsRoutes.post(":projectID", "skills", ":skillID", use: addSkillsHandler)
         projectsRoutes.delete(":projectID", "skills", ":skillID", use: removeSkillsHandler)
+        
     }
 
     func getAllHandler(_ req: Request) -> EventLoopFuture<[Project]> {
@@ -43,12 +47,11 @@ struct ProjectsController: RouteCollection {
             }
     }
 
-    func deleteHandler(_ req: Request) -> EventLoopFuture<HTTPStatus> {
+    func deleteHandler(_ req: Request)
+    -> EventLoopFuture<Response> {
         Project.find(req.parameters.get("projectID"), on: req.db)
-            .unwrap(or: Abort(.notFound))
-            .flatMap { project in
-                project.delete(on: req.db)
-                    .transform(to: .noContent)
+            .unwrap(or: Abort(.notFound)).flatMap { project in
+                project.delete(on: req.db).transform(to: req.redirect(to: "/admin"))
             }
     }
 

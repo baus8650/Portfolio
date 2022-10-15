@@ -95,7 +95,7 @@
                 #(screenshot.project.id)
             </td>
             <td>
-                <a class="btn btn-primary" href="admin/#(screenshot.id)/edit"
+                <a class="btn btn-primary" href="screenshot/#(screenshot.id)/edit"
                    role="button">Edit</a>
             </td>
             <td>

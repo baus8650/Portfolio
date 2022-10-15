@@ -1,0 +1,10 @@
+.more-details {
+  border-color: #8d6c9e;
+  color: #8d6c9e
+}
+
+.more-details:hover {
+  border-color: #8d6c9e;
+  background-color: #8d6c9e;
+  color: #fbf0ff;
+}

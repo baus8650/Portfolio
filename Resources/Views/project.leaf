@@ -1,29 +1,29 @@
 #extend("base"):
 #export("content"):
 <h1 class="text-center" style="margin-bottom: 1.5rem;">#(project.name)</h1>
-<div class="row" style="margin-bottom: 2rem;">
-  <div class="col">
+<div class="row row-cols-1 row-cols-md-1 row-cols-lg-2" style="margin-bottom: 2rem;">
+  <div class="col order-lg-1 order-sm-2 order-2">
     #unsafeHTML(project.longDescription)
     #if(project.appLink != ""):
-      #if(type.name == "iOS Application"):
-      <div class="text-center">
-        <a href="#(project.appLink)"><img src="/Images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.png"></a>
-      </div>
-      #elseif(type.name == "Website"):
-      <div class="text-center" style="margin-top: 1rem;">
-        <a class="btn btn-secondary" href="#(project.appLink)">
-          Visit the website!
-        </a>
-      </div>
-      #endif
+    #if(type.name == "iOS Application"):
+    <div class="text-center">
+      <a href="#(project.appLink)"><img src="/Images/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.png"></a>
+    </div>
+    #elseif(type.name == "Website"):
+    <div class="text-center" style="margin-top: 1rem;">
+      <a class="btn btn-secondary" href="#(project.appLink)">
+        Visit the website!
+      </a>
+    </div>
+    #endif
     #endif
   </div>
-  <div class="col">
-    <div class="col text-center">
+<!--  <div class="col">-->
+    <div class="col order-lg-2 order-sm-1 order-1 text-center">
       <img style="border-radius: 20px;" src="/Images/AppIcons/#(project.appIcon)" class="card-img-top" alt="...">
       <h5 class="text-center">Featured Skills</h5>
       #for(skill in skills):
-      <span class="badge bg-secondary">#(skill.name)</span>
+      <span class="badge p-1" style="background-color: #8d6c9e">#(skill.name)</span>
       #endfor
       #if(project.repoLink != ""):
       <br>
@@ -31,27 +31,32 @@
       <a href="#(project.repoLink)"><img src="/Images/GitHub-Mark-32px.png"></a>
       #endif
     </div>
-  </div>
+<!--  </div>-->
 </div>
 #if(count(screenshots) > 0):
 <hr>
 <h2 class="text-center">Screen Shots</h2>
 <h5 class="text-center" style="margin-bottom: 1.5rem; color: grey">Click screenshots to enlarge</h5>
-<div class="row row-cols-1 row-cols-md-4 g-4">
+
+<div class="card-group mb-4">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xxl-6">
   #for(screenshot in screenshots):
-  <div class="col">
-    <div class="card border-secondary mb-3" style="max-width: 18rem;">
-      <div class="card-group">
-        <a href="/Images/ScreenShots/#(screenshot.image)"><img src="/Images/ScreenShots/#(screenshot.image)" class="card-img-top" alt="..."></a>
-        <div class="card-body">
-          <p class="card-text" style="margin-top: 1em;">#(screenshot.description)</p>
-          <div class="text-center">
-          </div>
+  <!--  <div class="col">-->
+
+  <div class="card border-secondary">
+    <div class="card-group">
+      <a href="/Images/ScreenShots/#(screenshot.image)"><img src="/Images/ScreenShots/#(screenshot.image)" class="card-img-top" alt="..."></a>
+      <div class="card-body">
+        <p class="card-text" style="margin-top: 1em;">#(screenshot.description)</p>
+        <div class="text-center">
         </div>
       </div>
     </div>
   </div>
+  <!--    </div>-->
+  <!--  </div>-->
   #endfor
+  </div>
 </div>
 #endif
 #if(count(reviews) > 0):

@@ -12,6 +12,8 @@ struct ProjectsController: RouteCollection {
         projectsRoutes.get("sorted", use: sortedHandler)
         
         projectsRoutes.get(":projectID", "skills", use: getSkillsHandler)
+        projectsRoutes.get(":projectID", "screenshots", use: getScreenshotsHandler)
+        projectsRoutes.get(":projectID", "reviews", use: getReviewsHandler)
         
         let basicAuthMiddleware = User.authenticator()
         let guardAuthMiddleware = User.guardMiddleware()
@@ -111,6 +113,26 @@ struct ProjectsController: RouteCollection {
                     .$skills
                     .detach(skill, on: req.db)
                     .transform(to: .noContent)
+            }
+    }
+    
+    // MARK: - Screenshots
+    
+    func getScreenshotsHandler(_ req: Request) -> EventLoopFuture<[ScreenShot]> {
+        Project.find(req.parameters.get("projectID"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { project in
+                project.$screenShots.query(on: req.db).all()
+            }
+    }
+    
+    // MARK: - Reviews
+    
+    func getReviewsHandler(_ req: Request) -> EventLoopFuture<[Review]> {
+        Project.find(req.parameters.get("projectID"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { project in
+                project.$reviews.query(on: req.db).all()
             }
     }
 }

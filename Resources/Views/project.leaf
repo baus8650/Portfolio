@@ -23,7 +23,7 @@
       <img style="border-radius: 20px;" src="/Images/AppIcons/#(project.appIcon)" class="card-img-top" alt="...">
       <h5 class="text-center">Featured Skills</h5>
       #for(skill in skills):
-      <span class="badge bg-secondary">#(skill.name)</span>
+      <span class="badge p-1" style="background-color: #8d6c9e">#(skill.name)</span>
       #endfor
       #if(project.repoLink != ""):
       <br>

@@ -5,6 +5,7 @@ struct UsersController: RouteCollection {
         let usersRoute = routes.grouped("api", "users")
         usersRoute.post(use: createHandler)
         usersRoute.get(":userID", use: getHandler)
+        usersRoute.get(use: getAllHandler)
         
         let basicAuthMiddleware = User.authenticator()
         let basicAuthGroup = usersRoute.grouped(basicAuthMiddleware)
@@ -20,6 +21,11 @@ struct UsersController: RouteCollection {
     func getHandler(_ req: Request) -> EventLoopFuture<User> {
         User.find(req.parameters.get("userID"), on: req.db)
             .unwrap(or: Abort(.notFound))
+    }
+    
+    func getAllHandler(_ req: Request)
+    -> EventLoopFuture<[User]> {
+        User.query(on: req.db).all()
     }
     
     func loginHandler(_ req: Request) throws

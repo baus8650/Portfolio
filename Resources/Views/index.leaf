@@ -12,8 +12,8 @@
         <div class="text-center d-flex align-items-center justify-content-center" style="height: 30px; width: 240px; background-color: rgb(28,131,82); border-radius: 15px; color: white;">
           <a style="text-decoration: none; color: white;" href="mailto: timothy.c.bausch@gmail.com">
             <b>Tim is looking for work!&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 1.5 16 16">
-  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
-</svg></b>
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+            </svg></b>
           </a>
         </div>
       </div>
@@ -33,24 +33,27 @@
     <h1>Projects</h1>
   </div>
   <div style="margin-bottom: 2rem;">
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-      #for(project in projects):
-      <div class="card" style="margin-right: 1rem;">
-        <div class="card-header text-center" style="background-color: transparent">
-          <b>#(project.type.name) - #(project.yearCompleted)</b>
+    <div class="card-group">
+      <div class="row row-cols-1 row-cols-md-4 g-4">
+        #for(project in projects):
+        <div class="card" >
+          <div class="card-header text-center" style="background-color: transparent">
+            <b>#(project.type.name) - #(project.yearCompleted)</b>
           </div>
-        <div class="text-center" style="margin-top: 1.2rem;">
-          <img style="width: 75%; height: auto; border-radius: 20px;" src="Images/AppIcons/#(project.appIcon)" class="card-img-top" alt="...">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title text-left">#(project.name)</h5>
-          <p class="card-text">#(project.shortDescription)</p>
-          <div class="text-center">
-            <a href="projects/#(project.id)" class="btn btn-secondary">More Details</a>
+          <div class="text-center" style="margin-top: 1.2rem;">
+            <a href="projects/#(project.id)"><img style="width: 75%; height: auto; border-radius: 20px;" src="Images/AppIcons/#(project.appIcon)" class="card-img-top" alt="..."></a>
           </div>
+          <div class="card-body">
+            <h5 class="card-title text-left">#(project.name)</h5>
+            <p class="card-text">#(project.shortDescription)</p>
+
+          </div>
+          <div class="card-footer text-center" style="background-color: transparent">
+              <a href="projects/#(project.id)" class="btn btn-outline-secondary btn-sm">More Details</a>
+            </div>
         </div>
+        #endfor
       </div>
-      #endfor
     </div>
   </div>
   #else:

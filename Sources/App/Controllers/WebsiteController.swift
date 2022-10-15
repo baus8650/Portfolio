@@ -33,8 +33,8 @@ struct WebsiteController: RouteCollection {
         protectedRoutes.post("screenshots", "create", use: createGeneralScreenShotPostHandler)
         protectedRoutes.get("screenshots", ":projectID", "create", use: adminCreateScreenShotHandler)
         protectedRoutes.post("screenshots", ":projectID", "create", use: createScreenShotPostHandler)
-//        protectedRoutes.get("screenshots", ":screnshotID", "edit", use: editScreenShotHandler)
-//        protectedRoutes.post("screenshots", ":screnshotID", "edit", use: editScreenShotPostHandler)
+        protectedRoutes.get("screenshot", ":screenshotID", "edit", use: editScreenShotHandler)
+        protectedRoutes.post("screenshot", ":screenshotID", "edit", use: editScreenShotPostHandler)
         
         
         protectedRoutes.get("reviews", "create", use: admincCreateGeneralReviewHandler)
@@ -50,30 +50,33 @@ struct WebsiteController: RouteCollection {
     
     func indexHandler(_ req: Request) -> EventLoopFuture<View> {
         User.query(on: req.db).all().flatMap { users in
-            Project.query(on: req.db).sort(\.$yearCompleted, .descending).with(\.$applicationType).all().flatMap { projects in
-                let newProjects = projects.map { project in
+            Project.query(on: req.db).sort(\.$yearCompleted, .descending).sort(\.$appLink, .descending).sort(\.$name, .ascending).with(\.$applicationType).all().flatMap { projects in
+                let sortedProjects = projects.sorted {
+                    $0.applicationType.name > $1.applicationType.name
+                }
+                let newProjects = sortedProjects.map { project in
                     ProjectWithType(id: project.id, name: project.name, yearCompleted: project.yearCompleted, shortDescription: project.shortDescription, appIcon: project.appIcon, type: project.applicationType)
                 }
                 let context = IndexContext(title: "Tim Bausch Dev", projects: newProjects, users: users)
                 return req.view.render("index", context)
             }
         }
-//        Project.query(on: req.db).all().flatMap { projects in
-//            User.query(on: req.db).all().flatMap { users in
-//                let context = IndexContext(title: "Tim Bausch Dev", projects: projects, users: users)
-//                return req.view.render("index", context)
-//            }
-//        }
-//        Project.query(on: req.db).with(\.$applicationType).all().flatMap { projects in
-//            let projectsWithType = projects.map { project in
-//                ProjectWithType(id: project.id, name: project.name, yearCompleted: project.yearCompleted, shortDescription: project.shortDescription, longDescription: project.longDescription, appLink: project.appLink, repoLink: project.repoLink, appIcon: project.appIcon, skills: project.skills, applicationTypeID: project.type)
-//            }
-//            User.query(on: req.db).all().flatMap { users in
-//                projects.map
-//                let context = IndexContext(title: "Tim Bausch Dev", projects: projectsWithType, user: users)
-//                return req.view.render("index", context)
-//            }
-//        }
+        //        Project.query(on: req.db).all().flatMap { projects in
+        //            User.query(on: req.db).all().flatMap { users in
+        //                let context = IndexContext(title: "Tim Bausch Dev", projects: projects, users: users)
+        //                return req.view.render("index", context)
+        //            }
+        //        }
+        //        Project.query(on: req.db).with(\.$applicationType).all().flatMap { projects in
+        //            let projectsWithType = projects.map { project in
+        //                ProjectWithType(id: project.id, name: project.name, yearCompleted: project.yearCompleted, shortDescription: project.shortDescription, longDescription: project.longDescription, appLink: project.appLink, repoLink: project.repoLink, appIcon: project.appIcon, skills: project.skills, applicationTypeID: project.type)
+        //            }
+        //            User.query(on: req.db).all().flatMap { users in
+        //                projects.map
+        //                let context = IndexContext(title: "Tim Bausch Dev", projects: projectsWithType, user: users)
+        //                return req.view.render("index", context)
+        //            }
+        //        }
     }
     
     func projectHandler(_ req: Request) -> EventLoopFuture<View> {
@@ -171,6 +174,18 @@ struct WebsiteController: RouteCollection {
         }
     }
     
+    func editScreenShotHandler(_ req: Request) -> EventLoopFuture<View> {
+        let screenshotFuture = ScreenShot.find(req.parameters.get("screenshotID"), on: req.db)
+            .unwrap(or: Abort(.notFound))
+        
+        let projectQuery = Project.query(on: req.db).all()
+        return screenshotFuture.and(projectQuery).flatMap { screenshot, projects in
+            print("COULD YOU FIND THE SCREENSHOT \(screenshot)")
+            let context = EditScreenShotContext(screenshot: screenshot, projects: projects)
+            return req.view.render("createGeneralScreenshot", context)
+        }
+    }
+    
     func editProjectPostHandler(_ req: Request) throws -> EventLoopFuture<Response> {
         let updateData = try req.content.decode(CreateProjectFormData.self)
         return Project.find(req.parameters.get("projectID"), on: req.db)
@@ -180,7 +195,7 @@ struct WebsiteController: RouteCollection {
                 project.shortDescription = updateData.shortDescription
                 project.longDescription = updateData.longDescription
                 project.appLink = updateData.appLink
-//                project.appIcon = updateData.appIcon
+                //                project.appIcon = updateData.appIcon
                 project.$applicationType.id = updateData.applicationTypeID
                 let redirect = req.redirect(to: "/admin")
                 return project.save(on: req.db).flatMap {
@@ -344,8 +359,19 @@ struct WebsiteController: RouteCollection {
                         user.headshot = headShotName
                         let redirect = req.redirect(to: "/admin")
                         return user.save(on: req.db).transform(to: redirect)
-                }
+                    }
                 
+            }
+    }
+    
+    func editScreenShotPostHandler(_ req: Request) throws -> EventLoopFuture<Response> {
+        let updateData = try req.content.decode(EditScreenShotFormData.self)
+        return ScreenShot.find(req.parameters.get("screenshotID"), on: req.db)
+            .unwrap(or: Abort(.notFound)).flatMap { screenshot in
+                screenshot.description = updateData.description
+                screenshot.$project.id = updateData.project
+                let redirect = req.redirect(to: "/admin")
+                return screenshot.save(on: req.db).transform(to: redirect)
             }
     }
     
@@ -376,7 +402,7 @@ struct WebsiteController: RouteCollection {
                 .encodeResponse(for: req)
         }
     }
-
+    
     func logoutHandler(_ req: Request) -> Response {
         req.auth.logout(User.self)
         return req.redirect(to: "/")
@@ -462,6 +488,12 @@ struct CreateScreenShotFormData: Content {
     let description: String
 }
 
+struct EditScreenShotFormData: Content {
+//    let image: String
+    let description: String
+    let project: UUID
+}
+
 struct CreateReviewFormData: Content {
     let reviewValue: Int
     let reviewTitle: String
@@ -512,6 +544,13 @@ struct UserFormData: Content {
 struct EditUserContext: Encodable {
     let title = "Edit User"
     let user: User
+    let editing = true
+}
+
+struct EditScreenShotContext: Encodable {
+    let title = "Edit Screenshot"
+    let screenshot: ScreenShot
+    let projects: [Project]
     let editing = true
 }
 

@@ -8,7 +8,12 @@
         <label for="project">Project</label>
         <select name="project" class="form-control" id="project">
             #for(project in projects):
-            <option value="#(project.id)">
+            <option value="#(project.id)"
+                    #if(editing):
+                    #if(screenshot.project.id == project.id):
+                    selected
+                    #endif
+                    #endif>
                 #(project.name)
             </option>
             #endfor
@@ -26,7 +31,9 @@
     <div class="form-group">
         <label for="description">Description for Screenshot</label>
         <textarea rows="3" name="description" class="form-control"
-                  id="description"></textarea>
+                  id="description">
+            #if(editing):#(screenshot.description)#endif
+        </textarea>
     </div>
 
     <button type="submit" class="btn btn-primary">

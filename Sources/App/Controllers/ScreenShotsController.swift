@@ -9,7 +9,7 @@ struct ScreenShotsController: RouteCollection {
         protectedRoutes.get(use: getAllHandler)
         protectedRoutes.get(":screenshotID", use: getHandler)
         protectedRoutes.put(":screenshotID", use: updateHandler)
-        protectedRoutes.delete("delete", ":screenshotID", use: deleteHandler)
+        protectedRoutes.delete("api", "screenshots", "delete", ":screenshotID", use: deleteHandler)
     }
     
     func createHandler(_ req: Request)

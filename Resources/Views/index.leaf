@@ -10,8 +10,8 @@
     #if(user.isEmployed == false):
     <div class="row">
       <div class="col-md-8 mx-auto">
-        <div class="text-center d-flex align-items-center justify-content-center" style="height: 30px; width: 240px; background-color: rgb(141,108,158); border-radius: 15px; color: white;">
-          <a style="text-decoration: none; color: white;" href="mailto: timothy.c.bausch@gmail.com">
+        <div class="text-center">
+          <a style="text-decoration: none; color: white; background-color: rgb(141,108,158)" href="mailto: timothy.c.bausch@gmail.com" class="btn btn-secondary more-details">
             <b>Tim is looking for work!&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope" viewBox="0 1.5 16 16">
               <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
             </svg></b>
@@ -37,7 +37,7 @@
     <div class="card-group">
       <div class="row row row-cols-1 row-cols-md-2 row-cols-lg-4 row-cols-xxl-6">
         #for(project in projects):
-        <div class="card" >
+        <div class="card mb-2" style="border: 1px solid #8d6c9e; border-radius: 10px;" >
           <div class="card-header text-center" style="background-color: transparent">
             <b>#(project.type.name) - #(project.yearCompleted)</b>
           </div>

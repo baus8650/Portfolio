@@ -10,7 +10,7 @@
     <title>#(title)</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-md navbar-secondary bg-secondary">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Timothy Bausch</a>
     </div>

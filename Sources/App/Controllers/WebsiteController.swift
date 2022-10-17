@@ -57,7 +57,7 @@ struct WebsiteController: RouteCollection {
                 let newProjects = sortedProjects.map { project in
                     ProjectWithType(id: project.id, name: project.name, yearCompleted: project.yearCompleted, shortDescription: project.shortDescription, appIcon: project.appIcon, type: project.applicationType)
                 }
-                let context = IndexContext(title: "Tim Bausch Dev", projects: newProjects, users: users)
+                let context = IndexContext(title: "Tim Bausch, iOS Developer", projects: newProjects, users: users)
                 return req.view.render("index", context)
             }
         }
@@ -88,7 +88,7 @@ struct WebsiteController: RouteCollection {
                     project.$screenShots.get(on: req.db).flatMap { screenshots in
                         project.$reviews.get(on: req.db).flatMap { reviews in
                             project.$applicationType.get(on: req.db).flatMap { type in
-                                let context = ProjectContext(name: project.name, project: project, skills: skills, screenshots: screenshots, reviews: reviews, type: type)
+                                let context = ProjectContext(title: project.name, name: project.name, project: project, skills: skills, screenshots: screenshots, reviews: reviews, type: type)
                                 return req.view.render("project", context)
                             }
                         }
@@ -426,6 +426,7 @@ struct ProjectWithType: Content {
 }
 
 struct ProjectContext: Encodable {
+    let title: String
     let name: String
     let project: Project
     let skills: [Skill]

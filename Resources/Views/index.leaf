@@ -1,15 +1,7 @@
 #extend("base"):
 #export("content"):
 <link rel="stylesheet" href="Styles/buttonStyle.css">
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H0JV5PMRJ4"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-H0JV5PMRJ4');
-</script>
 #for(user in users):
 <div class="row row-cols-1 row-cols-md-1 row-cols-lg-2">
   <div class="col order-lg-1 order-sm-2 order-2">

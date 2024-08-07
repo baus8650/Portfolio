@@ -50,7 +50,7 @@ public func configure(_ app: Application) throws {
     app.migrations.add(CreateScreenShot())
     app.migrations.add(CreateReview())
     app.migrations.add(CreateToken())
-    app.migrations.add(CreateAdminUser())
+//    app.migrations.add(CreateAdminUser())
     
     app.routes.defaultMaxBodySize = "30mb"
     
